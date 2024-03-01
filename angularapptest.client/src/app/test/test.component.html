@@ -1,0 +1,24 @@
+<p>test works!</p>
+<p>ok</p>
+
+<form [formGroup]="TestForm" (ngSubmit)="onSubmit()">
+  <div class="text-center mb-4">
+    <h1 class="mb-3">
+      TestModel
+    </h1>
+    <p>{{testx}}</p>
+  </div>
+  <div class="form-floating mb-3">
+    <input type="text" formControlName="Name" class="form-control" id="floatingInput" placeholder="Name">
+    <label for="floatingInput">Name</label>
+  </div>
+  <div class="form-floating mb-3">
+    <input type="number" formControlName="SomeValue" class="form-control" id="floatingInput" placeholder="SomeValue">
+    <label for="floatingInput">SomeValue</label>
+  </div>
+  <div class="d-grid">
+    <button class="btn btn-lg btn-primary mt-3" type="submit">
+      Submit
+    </button>
+  </div>
+</form>

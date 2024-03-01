@@ -1,0 +1,1 @@
+C:\Users\terng\source\repos\AngularAppTest\angularapptest.client\obj\Debug\angularapptest.client.esproj.CoreCompileInputs.cache

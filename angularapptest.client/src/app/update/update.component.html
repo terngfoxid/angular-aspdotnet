@@ -1,0 +1,21 @@
+<p>update works!</p>
+<form [formGroup]="UpdateForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-4">
+      <h1 class="mb-3">
+        Update school Name
+      </h1>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" formControlName="Id" class="form-control" id="floatingInput" placeholder="ID">
+      <label for="floatingInput">ID</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" formControlName="Name" class="form-control" id="floatingInput" placeholder="Name">
+        <label for="floatingInput">Name</label>
+      </div>
+    <div class="d-grid">
+      <button class="btn btn-lg btn-primary mt-3" type="submit">
+        Save Update
+      </button>
+    </div>
+  </form>

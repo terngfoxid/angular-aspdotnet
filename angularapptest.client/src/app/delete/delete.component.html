@@ -1,0 +1,18 @@
+<p>delete works!</p>
+<form [formGroup]="DeleteForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-4">
+      <h1 class="mb-3">
+        Delete school
+      </h1>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="number" formControlName="ID" class="form-control" id="floatingInput" placeholder="ID">
+      <label for="floatingInput">ID</label>
+    </div>
+    <div class="d-grid">
+      <button class="btn btn-lg btn-primary mt-3" type="submit">
+        Delete confirm
+      </button>
+    </div>
+  </form>
+  <p>{{result}}</p>

@@ -1,0 +1,38 @@
+<h1 class="text-center mt-[10px] text-3xl font-bold" id="tableLabel">Weather forecast</h1>
+
+<p class="text-center mt-[5px] text-xl">This component demonstrates fetching data from the server.</p>
+
+<p class="text-center" *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a
+      href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+<div class="rounded-lg overflow-hidden shadow-md border border-[#dfee9e] w-5/6 mt-[10px] mx-auto">
+  <table *ngIf="forecasts" class="w-full">
+    <thead>
+      <tr class="bg-[#dddddd]">
+        <th>Date</th>
+        <th>Temp. (C)</th>
+        <th>Temp. (F)</th>
+        <th>Summary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="odd:bg-none even:bg-[#eeeeee] text-center" *ngFor="let forecast of forecasts">
+        <td>{{ forecast.date }}</td>
+        <td>{{ forecast.temperatureC }}</td>
+        <td>{{ forecast.temperatureF }}</td>
+        <td>{{ forecast.summary }}</td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>
+<div class="flex justify-center gap-x-[15px] mt-[10px]">
+  <button routerLink="test" class="hover:scale-125 bg-[#f0f0f0] w-[96px] px-[20px] py-[6px] rounded-lg shadow-md border border-[#ff00ff]" Button>Test</button>
+  <button routerLink="" class="hover:scale-125 bg-[#f0f0f0] w-[96px] px-[20px] py-[6px] rounded-lg shadow-md border border-[#ff00ff]" Button>home</button>
+</div>
+<div class="flex justify-center gap-x-[15px] mt-[10px]">
+  <button routerLink="create" class="hover:scale-125 bg-[#f0f0f0] w-[96px] px-[20px] py-[6px] rounded-lg shadow-md border border-[#5f55df]" Button>Create</button>
+  <button routerLink="read" class="hover:scale-125 bg-[#f0f0f0] w-[96px] px-[20px] py-[6px] rounded-lg shadow-md border border-[#5f55df]" Button>Read</button>
+  <button routerLink="update" class="hover:scale-125 bg-[#f0f0f0] w-[96px] px-[20px] py-[6px] rounded-lg shadow-md border border-[#5f55df]" Button>Update</button>
+  <button routerLink="delete" class="hover:scale-125 bg-[#f0f0f0] w-[96px] px-[20px] py-[6px] rounded-lg shadow-md border border-[#5f55df]" Button>Delete</button>
+</div>
+<router-outlet></router-outlet>

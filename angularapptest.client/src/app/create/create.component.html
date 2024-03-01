@@ -1,0 +1,16 @@
+<form class="m-[20px]" [formGroup]="CreateForm" (ngSubmit)="onSubmit()">
+  <div class="text-center mb-4 text-2xl">
+    <h1 class="mb-3">
+      Create new school
+    </h1>
+  </div>
+  <div class="mb-3 flex justify-center gap-x-[5px] items-center">
+    <input type="text" formControlName="Name" class="rounded p-[6px] border border-[#cccccc]" id="floatingInput" placeholder="Name">
+    <label for="floatingInput">Name</label>
+  </div>
+  <div class="flex justify-center">
+    <button class="border border-[#adf06e] rounded px-[20px] py-[6px] mt-3" type="submit">
+      Submit
+    </button>
+  </div>
+</form>
