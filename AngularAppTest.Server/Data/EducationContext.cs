@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AngularAppTest.Server.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace AngularAppTest.Server.Data;
 
@@ -25,29 +26,93 @@ public partial class EducationContext : DbContext
     public virtual DbSet<Teacher> Teachers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data source=DESKTOP-Q2EIECU;Initial Catalog=education;Integrated Security=True;trusted_connection=true;encrypt=false");
+    {
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("LocalDB"));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Classroom>(entity =>
         {
-            entity.HasOne(d => d.School).WithMany(p => p.Classrooms).HasConstraintName("FK_School");
+            entity.ToTable("Classroom");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Code)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.School).WithMany(p => p.Classrooms)
+                .HasForeignKey(d => d.SchoolId)
+                .HasConstraintName("FK_School");
+        });
+
+        modelBuilder.Entity<School>(entity =>
+        {
+            entity.ToTable("School");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.Name).IsUnicode(false);
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Student>(entity =>
         {
-            entity.HasOne(d => d.Classroom).WithMany(p => p.Students).HasConstraintName("FK_Classroom_Student");
+            entity.ToTable("Student");
 
-            entity.HasOne(d => d.School).WithMany(p => p.Students).HasConstraintName("FK_School_Student");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.ClassroomId).HasColumnName("ClassroomID");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Classroom).WithMany(p => p.Students)
+                .HasForeignKey(d => d.ClassroomId)
+                .HasConstraintName("FK_Classroom_Student");
+
+            entity.HasOne(d => d.School).WithMany(p => p.Students)
+                .HasForeignKey(d => d.SchoolId)
+                .HasConstraintName("FK_School_Student");
         });
 
         modelBuilder.Entity<Teacher>(entity =>
         {
-            entity.HasOne(d => d.Classroom).WithMany(p => p.Teachers).HasConstraintName("FK_Classroom_Teacher");
+            entity.ToTable("Teacher");
 
-            entity.HasOne(d => d.School).WithMany(p => p.Teachers).HasConstraintName("FK_School_Teacher");
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.ClassroomId).HasColumnName("ClassroomID");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.SchoolId).HasColumnName("SchoolID");
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Classroom).WithMany(p => p.Teachers)
+                .HasForeignKey(d => d.ClassroomId)
+                .HasConstraintName("FK_Classroom_Teacher");
+
+            entity.HasOne(d => d.School).WithMany(p => p.Teachers)
+                .HasForeignKey(d => d.SchoolId)
+                .HasConstraintName("FK_School_Teacher");
         });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

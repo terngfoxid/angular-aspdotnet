@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CRUDService } from '../../services/crud.service';
+import { School } from '../../models';
 
 @Component({
   selector: 'app-update',
@@ -9,16 +10,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class UpdateComponent {
   title: string = 'Update Form';
+  public school: School = new School();
 
   UpdateForm = new FormGroup({
     Name: new FormControl('', Validators.required),
     Id: new FormControl('', Validators.required)
   });
 
-  constructor(private http: HttpClient) { }
+  constructor(private crud: CRUDService) { }
 
   async onSubmit() {
-    await this.http.put('/crud', this.UpdateForm.value).subscribe(
+    this.school.name = this.UpdateForm.value.Name
+    this.school.id = this.UpdateForm.value.Id
+    await this.crud.putSchool(this.school).subscribe(
       (result) => {
         console.log(result);
       },

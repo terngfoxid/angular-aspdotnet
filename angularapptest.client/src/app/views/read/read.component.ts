@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { School } from '../../models';
+import { CRUDService } from '../../services/crud.service';
 
 @Component({
   selector: 'app-read',
@@ -10,23 +11,28 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class ReadComponent {
   title: string = 'Read Form';
 
-  public schoolName = "-";
+  public schoolName: string | null|undefined = "-";
+  public school: School | null = null;
 
   ReadForm = new FormGroup({
     ID: new FormControl('', Validators.required),
   });
 
-  constructor(private http: HttpClient) { }
+  constructor(private crud: CRUDService) { }
 
   async onSubmit() {
-    await this.http.get<{school:{name:string}}>('/crud?ID='+this.ReadForm.value.ID).subscribe(
+    await this.crud.getSchool(this.ReadForm.value.ID).subscribe(
       (result) => {
         console.log(result);
-        this.schoolName = result.school.name;
+        this.school = result.school
+        if (this.school != null) {
+          console.log(this.school)
+          this.schoolName = this.school.name;
+        }
       },
       (error) => {
-        console.error(error);
         this.schoolName = "ไม่พบข้อมูล";
+        console.error(error);
       }
     );
   }

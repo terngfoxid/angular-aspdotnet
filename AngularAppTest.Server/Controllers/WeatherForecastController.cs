@@ -44,5 +44,17 @@ namespace AngularAppTest.Server.Controllers
             };
             return Ok(json);
         }
+
+        [HttpPost("testreturn")]
+        public Testclass Testmethod()
+        {
+            return new Testclass { xxx = "ok" };
+        }
+
+        public class Testclass
+        {
+            public string? xxx { get; set;}
+            public int num {  get; set;}
+        }
     }
 }
